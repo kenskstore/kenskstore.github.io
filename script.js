@@ -1,4 +1,4 @@
-let tempoRestante = 5 * 60 * 1000; // 10 minutos
+let tempoRestante = 7 * 60 * 1000; // 10 minutos
 let msVisual = 0;
 
 const timer = setInterval(() => {
@@ -38,4 +38,49 @@ function copiarID(codigo, botao) {
                 botao.innerText = "Copiar";
             }, 1500);
         });
+}
+
+// Detecta TikTok
+const isTikTok = /TikTok/i.test(navigator.userAgent);
+
+window.addEventListener("DOMContentLoaded", () => {
+
+    const links = document.querySelectorAll(".produto");
+
+    links.forEach(link => {
+        link.addEventListener("click", function(e) {
+
+            if (isTikTok) {
+                e.preventDefault();
+
+                const url = this.href;
+                mostrarOverlay(url);
+            }
+        });
+    });
+
+});
+
+let linkDestino = "";
+
+function mostrarOverlay(url) {
+    linkDestino = url;
+    document.getElementById("overlay-tiktok").style.display = "flex";
+
+    if (/Android/i.test(navigator.userAgent)) {
+        setTimeout(() => {
+            abrirFora();
+        }, 1200);
+    }
+}
+
+function abrirFora() {
+    const url = linkDestino;
+
+    if (/Android/i.test(navigator.userAgent)) {
+        let clean = url.replace(/^https?:\/\//, '');
+        window.location.href = "intent://" + clean + "#Intent;scheme=https;end;";
+    } else {
+        alert("Toque nos 3 pontos e selecione 'Abrir no navegador'");
+    }
 }
