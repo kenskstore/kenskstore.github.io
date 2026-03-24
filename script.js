@@ -41,14 +41,20 @@ window.addEventListener("DOMContentLoaded", () => {
     }, 33);
 
 
-    // ================= TIKTOK FIX =================
-    const isTikTok = /TikTok|TTWebView/i.test(navigator.userAgent);
+    // ================= DETECÇÃO FORTE (TIKTOK + QUALQUER WEBVIEW) =================
+    const isInAppBrowser =
+        /TikTok|TTWebView|Instagram|FBAN|FBAV|Line|wv/i.test(navigator.userAgent)
+        || window.location.hostname.includes("tiktok");
 
-    if (isTikTok) {
+
+    // ================= MOSTRAR OVERLAY =================
+    if (isInAppBrowser) {
         const overlay = document.getElementById("overlay-tiktok");
 
         if (overlay) {
-            overlay.style.display = "flex";
+            overlay.style.display = "block";
+            overlay.style.opacity = "1";
+            overlay.style.visibility = "visible";
         }
     }
 
