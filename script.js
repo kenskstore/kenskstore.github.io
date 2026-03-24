@@ -1,18 +1,19 @@
-let tempoRestante = 7 * 60 * 1000; // 10 minutos
+// ================= CRONÔMETRO =================
+let tempoRestante = 7 * 60 * 1000;
 let msVisual = 0;
 
 const timer = setInterval(() => {
     if (tempoRestante <= 0) {
         clearInterval(timer);
 
-        // Remove o título antigo
         const titulo = document.querySelector("#cronometro .titulo");
         if (titulo) titulo.remove();
 
-        // Atualiza o contador para a mensagem final
         const tempo = document.getElementById('tempo');
-        tempo.textContent = "OFERTA QUASE ESGOTADA!";
-        tempo.classList.add("piscar"); // adiciona a classe que faz piscar
+        if (tempo) {
+            tempo.textContent = "OFERTA QUASE ESGOTADA!";
+            tempo.classList.add("piscar");
+        }
         return;
     }
 
@@ -23,13 +24,17 @@ const timer = setInterval(() => {
     segundos = segundos < 10 ? '0'+segundos : segundos;
 
     msVisual = (msVisual + 1) % 31;
-    let msText = msVisual < 10 ? '0'+msVisual : msVisual;
+    let msText = msVisual < 10 ? '0'+msText : msVisual;
 
-    document.getElementById('tempo').textContent = `${minutos}:${segundos}:${msText}`;
+    const tempo = document.getElementById('tempo');
+    if (tempo) {
+        tempo.textContent = `${minutos}:${segundos}:${msText}`;
+    }
 
     tempoRestante -= 33;
 }, 33);
 
+// ================= COPIAR ID =================
 function copiarID(codigo, botao) {
     navigator.clipboard.writeText(codigo)
         .then(() => {
@@ -40,8 +45,12 @@ function copiarID(codigo, botao) {
         });
 }
 
-// Detecta TikTok
-const isTikTok = /TikTok/i.test(navigator.userAgent);
+// ================= TIKTOK FIX =================
+
+// ⚠️ deixa só UMA declaração
+const isTikTok = /TikTok|TTWebView/i.test(navigator.userAgent);
+
+let linkDestino = "";
 
 window.addEventListener("DOMContentLoaded", () => {
 
@@ -52,20 +61,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
             if (isTikTok) {
                 e.preventDefault();
-
-                const url = this.href;
-                mostrarOverlay(url);
+                mostrarOverlay(this.href);
             }
         });
     });
 
 });
 
-let linkDestino = "";
-
+// ================= OVERLAY =================
 function mostrarOverlay(url) {
     linkDestino = url;
-    document.getElementById("overlay-tiktok").style.display = "flex";
+
+    const overlay = document.getElementById("overlay-tiktok");
+
+    if (overlay) {
+        overlay.style.display = "flex";
+    }
 
     if (/Android/i.test(navigator.userAgent)) {
         setTimeout(() => {
@@ -74,6 +85,7 @@ function mostrarOverlay(url) {
     }
 }
 
+// ================= ABRIR FORA =================
 function abrirFora() {
     const url = linkDestino;
 
