@@ -1,31 +1,48 @@
-let tempoRestante = 7 * 60 * 1000; // 7 minutos
+// ================= CRONÔMETRO PERSISTENTE (7 MINUTOS) =================
+const DURACAO_TOTAL = 10 * 60 * 1000; // Alterado para 7 minutos
+
+function obterDataFinal() {
+    let final = localStorage.getItem('oferta_final');
+    
+    // Se não houver data OU se você quiser "forçar" os 7 minutos agora:
+    if (!final) {
+        final = Date.now() + DURACAO_TOTAL;
+        localStorage.setItem('oferta_final', final);
+    }
+    
+    return parseInt(final);
+}
+
+let dataFinal = obterDataFinal();
 let msVisual = 0;
 
 const timer = setInterval(() => {
+    const tempoEl = document.getElementById('tempo');
+    if (!tempoEl) return;
+
+    // Calcula a diferença real entre "agora" e a "data final" salva
+    let tempoRestante = dataFinal - Date.now();
+
     if (tempoRestante <= 0) {
+        // ... (mantenha o restante do seu código de finalização aqui)
         clearInterval(timer);
         const titulo = document.querySelector("#cronometro .titulo");
         if (titulo) titulo.remove();
-        const tempo = document.getElementById('tempo');
-        if (tempo) {
-            tempo.textContent = "OFERTA QUASE ESGOTADA!";
-            tempo.classList.add("piscar");
-        }
+        tempoEl.textContent = "OFERTA QUASE ESGOTADA!";
+        tempoEl.classList.add("piscar");
         return;
     }
 
     let minutos = Math.floor(tempoRestante / 60000);
     let segundos = Math.floor((tempoRestante % 60000) / 1000);
+    
     minutos = minutos < 10 ? '0' + minutos : minutos;
     segundos = segundos < 10 ? '0' + segundos : segundos;
+    
     msVisual = (msVisual + 1) % 31;
     let msText = msVisual < 10 ? '0' + msVisual : msVisual;
 
-    const tempoEl = document.getElementById('tempo');
-    if (tempoEl) {
-        tempoEl.textContent = `${minutos}:${segundos}:${msText}`;
-    }
-    tempoRestante -= 33;
+    tempoEl.textContent = `${minutos}:${segundos}:${msText}`;
 }, 33);
 
 // ================= COPIAR ID =================
@@ -43,33 +60,22 @@ function copiarID(codigo, botao) {
         });
 }
 
-// ================= OVERLAY =================
+// ================= OVERLAY TIKTOK =================
 window.addEventListener("DOMContentLoaded", () => {
     const overlay = document.getElementById("overlay-tiktok");
-    
-    // Captura a identidade do navegador
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    if (!overlay) return;
 
-    // Detecção ultra-robusta de navegadores internos (In-App Browsers)
-    // Verifica TikTok, Instagram, FB Messenger e outros
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
     const isInApp = /TikTok|musical_ly|FBAN|FBAV|Instagram|Snapchat/i.test(ua);
 
-    // LOG PARA TESTE (Opcional): 
-    // Se você estiver com o celular no PC, isso ajuda a ver o que o site lê
-    console.log("Navegador detectado:", ua);
-
-    // Só mostra se for um App E se o usuário ainda não fechou
-    if (isInApp && overlay && !localStorage.getItem("overlayVisto")) {
+    if (isInApp && !localStorage.getItem("overlayVisto")) {
         overlay.classList.add("active");
         overlay.style.display = "flex"; 
     } else {
-        // Se não for app, remove o overlay para não pesar a página
-        if (overlay && !overlay.classList.contains("active")) {
-            overlay.remove();
-        }
+        overlay.style.display = "none";
+        overlay.remove(); 
     }
 
-    // Detecta o sistema para o CSS
     if (/Android/i.test(ua)) {
         document.body.classList.add("is-android");
     } else if (/iPhone|iPad|iPod/i.test(ua)) {
@@ -80,26 +86,17 @@ window.addEventListener("DOMContentLoaded", () => {
 // ================= ABRIR NAVEGADOR (PLANO B) =================
 function abrirFora(event) {
     if (event) event.preventDefault();
-
     const btn = document.querySelector(".btn-principal");
 
     if (btn) {
-        // TROCA O TEXTO, MANTENDO A SETA ↑
         btn.innerHTML = "Siga o passo 1 e 2 acima ↑";
-        
-        // APLICA A ESTÉTICA QUE VOCÊ APROVOU NO CLIQUE:
-        btn.style.background = "#111"; // Fundo escuro
-        btn.style.color = "#0088ff";   // Texto azul destaque
+        btn.style.background = "#111";
+        btn.style.color = "#0088ff";
         btn.style.border = "1px solid #0088ff";
-        
-        // Adiciona a animação de balanço
         btn.classList.add("shake-effect");
-        
-        // Impede que o botão fique "clicável" após mostrar o tutorial
         btn.style.pointerEvents = "none"; 
     }
 
-    // Mantém sua lógica original do Android
     if (/Android/i.test(navigator.userAgent)) {
         const url = window.location.href;
         let clean = url.replace(/^https?:\/\//, '');
@@ -114,15 +111,14 @@ function fecharSeFora(event) {
     }
 }
 
-// Função para fechar o overlay (usada pelo X e pelo link de baixo)
 function fecharOverlay() {
     const overlay = document.getElementById("overlay-tiktok");
     if (overlay) {
         overlay.classList.remove("active");
+        overlay.style.display = "none"; // Garante que sumiu
     }
 }
 
-// Função específica para o link "Continuar aqui mesmo" (caso queira rastrear o clique depois)
 function continuarOverlay() {
     fecharOverlay();
 }

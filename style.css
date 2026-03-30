@@ -68,14 +68,13 @@ body {
     margin-bottom: 30px;
 }
 
-/* BOTÕES DO OVERLAY - AJUSTE CIRÚRGICO AQUI */
+/* BOTÕES DO OVERLAY */
 #overlay-tiktok .buttons {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-/* Mudei o seletor abaixo para afetar APENAS botões dentro do overlay */
 #overlay-tiktok .buttons button {
     width: 100%;
     padding: 14px;
@@ -87,7 +86,6 @@ body {
     border: none;
 }
 
-/* Botão Principal do Overlay */
 #overlay-tiktok .buttons button:first-child {
     background: #0088ff;
     color: white;
@@ -104,7 +102,6 @@ body {
     background: #0077ee;
 }
 
-/* Botão Secundário do Overlay */
 #overlay-tiktok .buttons button:last-child {
     background: transparent;
     color: #777;
@@ -235,63 +232,35 @@ ul a {
     color: #000;
     padding: 15px;
     text-decoration: none;
-    font-family: sans-serif;
-    font-size: 18px; /* Ajustei levemente para caber melhor */
-    display: flex;    /* Mudado para flex para alinhar foto e texto lado a lado */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 22px; 
+    display: flex;
     align-items: center;
-    gap: 15px;
+    /* Centraliza o conteúdo (texto) no meio do botão */
+    justify-content: center; 
     border-radius: 12px;
-    border: 1px solid white;
-    min-height: 80px; /* Em vez de max-height, usamos min-height para garantir que apareça */
+    border: 2px solid #0088ff;
+    min-height: 80px; 
     transition: all 0.3s ease;
     margin-bottom: 10px;
+    /* Necessário para a imagem se posicionar em relação a este botão */
+    position: relative; 
+    padding-left: 65px;
 }
 
-/* Garante que a imagem dentro do link não fique gigante */
+/* Garante que a imagem fique fixa na esquerda sem empurrar o texto */
 ul a img {
     width: 60px;
     height: 60px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 8px;
+    /* Posicionamento fixo na lateral esquerda */
+    position: absolute;
+    left: 15px; 
 }
 
 ul a:hover {
     transform: scale(1.1);
-}
-
-/* ================= BOTÃO SHEIN ================= */
-.btn-shein {
-    display: inline-flex;
-    align-items: center;
-    gap: 0;
-    border-radius: 50px;
-
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-
-
-
-    /* Animação */
-    animation: pulse 1.5s infinite;
-}
-
-/* Imagem dentro do botão */
-.btn-shein img {
-    width: 38px;
-    height: 38px;
-    border-radius: 16px;
-
-
-    display: block;
-    margin-right: -10px;
-}
-
-
-@keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-    100% { transform: scale(1); }
 }
 
 /* ANIMAÇÃO SHAKE */
@@ -316,4 +285,38 @@ button {
     background: #222;
     color: #fff;
     margin-left: 8px;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { transform: scale(1); }
+}
+
+/* ========================================= 
+   AJUSTES PARA CATEGORIAS E REMOÇÃO SHEIN 
+   ========================================= */
+
+/* Ajuste para quando a lista for de Categorias (index.html) */
+/* No index.html, adicione id="lista-categorias" na sua <ul> */
+#lista-categorias {
+    margin-top: 20px !important;
+}
+
+/* Estilo para o link de "Voltar" nas páginas de produto */
+.btn-voltar {
+    display: inline-block;
+    color: #777;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 20px;
+    transition: color 0.2s;
+}
+
+.btn-voltar:hover {
+    color: white;
+}
+
+footer {
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
