@@ -275,7 +275,7 @@ ul a {
     transition: all 0.3s ease;
 
     /* BORDA NEON FIXA (AZUL DO OVERLAY) */
-    border: 2px solid #0088ff; 
+    border: 2px solid #e6f7ff; 
     box-shadow: 0 0 15px rgba(0, 136, 255, 0.8), inset 0 0 5px rgba(0, 136, 255, 0.3);
 }
 
