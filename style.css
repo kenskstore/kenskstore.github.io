@@ -12,6 +12,33 @@ body {
     color: white;
 }
 
+/* ================= CORREÇÃO AGRESSIVA E AUMENTO DO LOGO ================= */
+/* 1. Garante que o container do header ocupe a largura total da tela */
+header {
+    width: 100%;
+    margin: 0;
+    padding: 0; /* Remove paddings que possam limitar o tamanho */
+    text-align: center; /* Ajuda a centralizar elementos internos */
+}
+
+/* 2. O Logo propriamente dito */
+header img {
+    /* AUMENTO AGRESSIVO E RESPONSIVO */
+    /* Agora o logo ocupa 90% da largura TOTAL da tela (viewport) */
+    width: 95%; 
+    max-width: 500px; /* Limite agressivo de 400px para telas maiores (como tablets) */
+    
+    height: auto;     /* Mantém a proporção sem achatar ou distorcer (evita parecer torto) */
+    border-radius: 20px; /* Mantém o arredondamento que você gosta */
+    
+    /* CENTRALIZAÇÃO PERFEITA */
+    display: block;   
+    margin: 1px auto; /* Mais espaço em cima/baixo (40px) e centralizado horizontalmente (auto) */
+    
+    /* Garantia anti-distorção extra */
+    object-fit: contain;
+}
+
 /* CONTAINER PRINCIPAL (FUNDO) */
 #overlay-tiktok {
     position: fixed;
@@ -220,41 +247,50 @@ header img {
 }
 
 .container {
+    width: 100%;       /* Ocupa a largura total disponível */
+    max-width: 320px;  /* Mas não passa de 320px (tamanho ideal pro celular) */
+    margin: 0 auto;    /* Centraliza na tela */
     text-align: center;
-    width: 320px;
-    margin: 0 auto;
+    padding: 0 10px;   /* Adiciona uma pequena margem interna nas laterais */
 }
 
 ul { margin-top: -32px; list-style: none; }
 
+/* ================= BOTÕES DE CATEGORIAS COM NEON FIXO ================= */
 ul a {
     background-color: #e6f7ff;
     color: #000;
     padding: 15px;
     text-decoration: none;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 22px; 
     display: flex;
     align-items: center;
-    /* Centraliza o conteúdo (texto) no meio do botão */
     justify-content: center; 
     border-radius: 12px;
-    border: 2px solid #0088ff;
     min-height: 80px; 
-    transition: all 0.3s ease;
-    margin-bottom: 10px;
-    /* Necessário para a imagem se posicionar em relação a este botão */
+    margin-bottom: 15px; /* Aumentei um pouco o espaço para o brilho não encostar no de baixo */
     position: relative; 
     padding-left: 65px;
+    transition: all 0.3s ease;
+
+    /* BORDA NEON FIXA (AZUL DO OVERLAY) */
+    border: 2px solid #0088ff; 
+    box-shadow: 0 0 15px rgba(0, 136, 255, 0.8), inset 0 0 5px rgba(0, 136, 255, 0.3);
 }
 
-/* Garante que a imagem fique fixa na esquerda sem empurrar o texto */
+/* Efeito ao clicar (opcional: ele brilha mais forte quando encosta) */
+ul a:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 25px rgba(0, 136, 255, 1);
+}
+
+/* Imagem da bandeira fixa na esquerda */
 ul a img {
     width: 60px;
     height: 60px;
     object-fit: contain;
     border-radius: 8px;
-    /* Posicionamento fixo na lateral esquerda */
     position: absolute;
     left: 15px; 
 }
@@ -302,6 +338,7 @@ button {
 #lista-categorias {
     margin-top: 20px !important;
 }
+
 
 /* Estilo para o link de "Voltar" nas páginas de produto */
 .btn-voltar {
